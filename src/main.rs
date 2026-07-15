@@ -32,28 +32,34 @@ fn main() {
             .records()
             .map(|rec| rec.unwrap().deserialize(None).unwrap())
             .collect();
-        /*
-        let (pos, max) = data
-            .iter()
-            .enumerate()
-            .max_by_key(|(_, row)| ordered_float::OrderedFloat(row.force))
-            .unwrap();
-        */
         // for constant force where peaks aren't obvious (and time was recorded)
         // let time = 11.0 + dbg!(prehold).parse::<f32>().unwrap();
         // for differing constant force
+        /*
         let mut lookup = std::collections::BTreeMap::new();
-        lookup.insert("2N", 1.3);
-        lookup.insert("4N", 1.8);
-        lookup.insert("6N", 2.3);
-        lookup.insert("8N", 3.0);
-        lookup.insert("10N", 3.7);
-        lookup.insert("12N", 4.8);
+        // non-rough
+        // lookup.insert("2", 1.3);
+        // lookup.insert("4", 1.8);
+        // rough
+        lookup.insert("1", 1.0);
+        lookup.insert("2", 1.2);
+        lookup.insert("4", 1.7);
+
+        lookup.insert("6", 2.3);
+        lookup.insert("8", 3.0);
+        lookup.insert("10", 3.7);
+        lookup.insert("12", 4.8);
         let time = 11.5 + lookup[dbg!(prehold)];
         let (pos, max) = data
             .iter()
             .enumerate()
             .find(|(_, row)| row.time > time)
+            .unwrap();
+        */
+        let (pos, max) = data
+            .iter()
+            .enumerate()
+            .max_by_key(|(_, row)| ordered_float::OrderedFloat(row.force))
             .unwrap();
         let Some(end) = (data[pos..]).iter().find(|rec| rec.force < 150.0) else {
             println!(
