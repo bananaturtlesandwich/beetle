@@ -1,2 +1,0 @@
-x-koef: a=0, b=0, c=0, j=1, v_correct=1.0, v_max=10, l_ofs=0, crosstalk=0.0000100,slope=0, offset=0.0001357;
-z-koef: a=0, b=0, c=-4.9777, j=1, v_correct=1.0, v_max=10, l_ofs=0, crosstalk=0.0000100,slope=0, offset=0.0001357;
