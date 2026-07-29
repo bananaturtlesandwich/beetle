@@ -1,5 +1,5 @@
 library(rstudioapi)
-folder = selectDirectory()
+folder = selectDirectory(caption="select the data folder")
 data = list.files(path=folder)
 
 library(hash)
@@ -15,9 +15,13 @@ table[["4"]] = 1.7
 table[["6"]] = 2.3
 table[["8"]] = 3.0
 table[["10"]] = 3.7
+table[["12"]] = 4.8
 table[["2"]] = 4.8
 
-for (test in data) {
+var = array(dim=length(data))
+hold = array(dim=length(data))
+for (j in 1:length(data)) {
+  test = data[j]
   if (!startsWith(test, "2013")) {
     next
   }
@@ -32,13 +36,14 @@ for (test in data) {
   
   # for force feedback (since max value isn't start)
   time = 11.5 + table[[prehold]]
+  print(prehold)
   
   t = read.csv(paste(folder, test, sep="/"), sep='\t', header=FALSE)
   names(t) = c("time", "", "", "", "displacement", "", "force", "", "", "")
   
-  pos = 0
+  pos = 1
   max = 0
-  for (i in 1:length(t)) {
+  for (i in 1:length(t$time)) {
     if (t$time[i] > time) {
       pos = i
       max = t$time[i]
@@ -46,11 +51,16 @@ for (test in data) {
     }
   }
   
-  end = t$time[length(t)]
-  for (i in pos:length(t)) {
+  end = t$time[length(t$time)]
+  for (i in pos:length(t$force)) {
     if (t$force[i] < 150.0){
       end = t$time[i]
+      break
     }
   }
-  t$hold = end - max
+  var[j] = prehold
+  hold[j] = end - max
 }
+
+times = data.frame(var, hold)
+write.csv(times, paste(folder, "hold times.csv", sep="/"))

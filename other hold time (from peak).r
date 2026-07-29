@@ -1,8 +1,11 @@
 library(rstudioapi)
-folder = selectDirectory()
+folder = selectDirectory(caption="select the data folder")
 data = list.files(path=folder)
 
-for (test in data) {
+var = array(dim=length(data))
+hold = array(dim=length(data))
+for (j in 1:length(data)) {
+  test = data[j]
   if (!startsWith(test, "2013")) {
     next
   }
@@ -18,19 +21,27 @@ for (test in data) {
   t = read.csv(paste(folder, test, sep="/"), sep='\t', header=FALSE)
   names(t) = c("time", "", "", "", "displacement", "", "force", "", "", "")
   
-  pos = 0
+  pos = 1
   max = 0
-  for (i in 1:length(t)) {
+  time = 0
+  for (i in 1:length(t$force)) {
     if (t$force[i] > max) {
       pos = i
-      max = t$time[i]
+      max = t$force[i]
+      time = t$time[i]
     }
   }
-  end = t$time[length(t)]
-  for (i in pos:length(t)) {
+  end = t$time[length(t$time)]
+  for (i in pos:length(t$force)) {
     if (t$force[i] < 150.0){
       end = t$time[i]
+      break
     }
   }
-  t$hold = end - max
+  var[j] = prehold
+  hold[j] = end - time
+  cat(test, ", prehold: ", prehold,"end: ",end,", peak: ",time,"\n")
 }
+
+times = data.frame(var, hold)
+write.csv(times, paste(folder, "hold times.csv", sep="/"))
