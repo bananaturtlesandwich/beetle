@@ -1,7 +1,7 @@
 library(rstudioapi)
 hold.times = read.csv(selectFile())
-# if variable is in seconds multiply by speed
-# hold.times$var = hold.times$var * 0.5
+# if variable needs to be displacement multiply by speed
+#hold.times$var = hold.times$var * 0.5
 
 cor.test(hold.times$var, hold.times$hold)
 

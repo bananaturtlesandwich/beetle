@@ -5,8 +5,8 @@ data = list.files(path=folder)
 library(hash)
 table = hash()
 # use if non-rough surface
-table[["2"]] = 1.3
-table[["4"]] = 1.8
+#table[["2"]] = 1.3
+#table[["4"]] = 1.8
 # use if 0.5 um rough
 table[["1"]] = 1.0
 table[["2"]] = 1.2
@@ -36,7 +36,6 @@ for (j in 1:length(data)) {
   
   # for force feedback (since max value isn't start)
   time = 11.5 + table[[prehold]]
-  print(prehold)
   
   t = read.csv(paste(folder, test, sep="/"), sep='\t', header=FALSE)
   names(t) = c("time", "", "", "", "displacement", "", "force", "", "", "")

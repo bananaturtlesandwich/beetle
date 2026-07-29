@@ -40,7 +40,6 @@ for (j in 1:length(data)) {
   }
   var[j] = prehold
   hold[j] = end - time
-  cat(test, ", prehold: ", prehold,"end: ",end,", peak: ",time,"\n")
 }
 
 times = data.frame(var, hold)
